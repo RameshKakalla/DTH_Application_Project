@@ -58,7 +58,7 @@ public class RegistrationImplTest {
 	}
 
 	/**
-	 * ✅ Positive Test Case: Verifies that all entities are saved successfully when
+	 * Positive Test Case: Verifies that all entities are saved successfully when
 	 * valid Registration input is provided.
 	 */
 	@Test
@@ -110,7 +110,7 @@ public class RegistrationImplTest {
 	}
 
 	/**
-	 * ❌ Negative Test Case 2: Address is null in CustomerProfile → should throw
+	 * Negative Test Case 2: Address is null in CustomerProfile → should throw
 	 * NullPointerException and return 500.
 	 */
 	@Test
@@ -134,7 +134,7 @@ public class RegistrationImplTest {
 	}
 
 	/**
-	 * ❌ Negative Test Case 3: SetupBox is null → should throw NullPointerException
+	 * Negative Test Case 3: SetupBox is null → should throw NullPointerException
 	 * and return 500.
 	 */
 	@Test
@@ -162,7 +162,7 @@ public class RegistrationImplTest {
 	}
 
 	/**
-	 * ❌ Negative Test Case 4: Simulate DB failure when saving registration → should
+	 *  Negative Test Case 4: Simulate DB failure when saving registration → should
 	 * return 500 with exception message.
 	 */
 	@Test
@@ -198,7 +198,7 @@ public class RegistrationImplTest {
 
 //    test cases for fetch api emthod
 
-	// ✅ Positive Test Case: returns data with full objects
+	// Positive Test Case: returns data with full objects
 	@Test
 	public void testGetAllRegistrations_WithEnums() {
 		// Creating Address with Enums
@@ -220,17 +220,23 @@ public class RegistrationImplTest {
 		assertEquals(1, result.size()); // Checking that one registration is returned
 	}
 
-	// ❌ Negative Test Case: Empty registration list
+	// Negative Test Case: Empty registration list
 	@Test
 	public void testGetAllRegistrations_EmptyList() {
-		when(registrationRepo.findAll()).thenReturn(Collections.emptyList());
+	    when(registrationRepo.findAll()).thenReturn(Collections.emptyList());
 
-		ResponseEntity<?> response = registrationService.getAllRegistrations();
+	    ResponseEntity<?> response = registrationService.getAllRegistrations();
 
-		assertEquals(200, response.getStatusCodeValue());
-		List<?> result = (List<?>) response.getBody();
-		assertNotNull(result);
-		assertTrue(result.isEmpty());
+	    assertEquals(404, response.getStatusCodeValue());
+
+	    Object body = response.getBody();
+	    assertNotNull(body);
+	    assertTrue(body instanceof Map);
+
+	    Map<?, ?> result = (Map<?, ?>) body;
+	    assertTrue(result.containsKey("message"));
+	    assertEquals("No registrations found.", result.get("message"));
 	}
+
 
 }

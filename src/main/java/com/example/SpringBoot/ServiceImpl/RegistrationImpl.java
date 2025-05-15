@@ -1,6 +1,7 @@
 package com.example.SpringBoot.ServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,30 +77,45 @@ public class RegistrationImpl implements IRegistration {
 	}
 
 	public ResponseEntity<?> getAllRegistrations() {
-		List<Registration> registrations = registrationRepo.findAll();
-		List<Map<String, Object>> result = new ArrayList<>();
+	    List<Registration> registrations = registrationRepo.findAll();
 
-		for (Registration reg : registrations) {
-			try {
-			Map<String, Object> registrationMap = new HashMap<>();
+	    // If no data found
+	    if (registrations.isEmpty()) {
+	        Map<String, Object> response = new HashMap<>();
+	        response.put("message", "No registrations found.");
+	        response.put("data", Collections.emptyList());
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+	    }
 
-			registrationMap.put("registrationId", reg.getRegistrationId());
-			registrationMap.put("id", reg.getId());
-			registrationMap.put("idProofType", reg.getIdProofType());
-			registrationMap.put("idProofNumber", reg.getIdProofNumber());
-			registrationMap.put("registrationDate", reg.getRegistrationDate());
-			registrationMap.put("sellerId", reg.getSellerId());
+	    List<Map<String, Object>> result = new ArrayList<>();
 
-			registrationMap.put("setupBox", buildSetupBoxMap(reg.getSetupBox()));
-			registrationMap.put("customerProfile", buildCustomerProfileMap(reg.getCustomerProfile()));
+	    for (Registration reg : registrations) {
+	        try {
+	            Map<String, Object> registrationMap = new HashMap<>();
 
-			result.add(registrationMap);
-		} catch (Exception ex) {
-			logger.warn("Failed to process registration with ID: " + reg.getId(), ex);
-		}
-		}
-		return ResponseEntity.ok(result);
+	            registrationMap.put("registrationId", reg.getRegistrationId());
+	            registrationMap.put("id", reg.getId());
+	            registrationMap.put("idProofType", reg.getIdProofType());
+	            registrationMap.put("idProofNumber", reg.getIdProofNumber());
+	            registrationMap.put("registrationDate", reg.getRegistrationDate());
+	            registrationMap.put("sellerId", reg.getSellerId());
+
+	            registrationMap.put("setupBox", buildSetupBoxMap(reg.getSetupBox()));
+	            registrationMap.put("customerProfile", buildCustomerProfileMap(reg.getCustomerProfile()));
+
+	            result.add(registrationMap);
+	        } catch (Exception ex) {
+	            logger.warn("Failed to process registration with ID: " + reg.getId(), ex);
+	        }
+	    }
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("message", "Registrations fetched successfully");
+	    response.put("data", result);
+
+	    return ResponseEntity.ok(response);
 	}
+
 
 	private Map<String, Object> buildSetupBoxMap(SetupBox setupBox) {
 		if (setupBox == null)
