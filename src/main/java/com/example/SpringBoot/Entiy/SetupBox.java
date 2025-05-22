@@ -11,7 +11,6 @@ import com.example.SpringBoot.Enums.LocationEnums.Status;
 public class SetupBox {
 
 	@Id
-	@Field("setupBoxId")
 	private String setupBoxId;
 	private String ipAddress;
 	private SetupBoxType setBoxType; //ENUM

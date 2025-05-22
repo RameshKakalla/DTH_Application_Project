@@ -82,7 +82,7 @@ public class RegistrationImplTest {
 		when(setupBoxRepo.save(any())).thenReturn(setupBox);
 		when(registrationRepo.save(any())).thenReturn(request);
 
-		ResponseEntity<?> response = registrationService.saveCompleteRegistration(request);
+		ResponseEntity<?> response = registrationService.saveRegistration(request);
 
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		Map<?, ?> body = (Map<?, ?>) response.getBody();
@@ -99,7 +99,7 @@ public class RegistrationImplTest {
 		Registration request = new Registration();
 		request.setCustomerProfile(null); // Null customer profile
 
-		ResponseEntity<?> response = registrationService.saveCompleteRegistration(request);
+		ResponseEntity<?> response = registrationService.saveRegistration(request);
 
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		Map<?, ?> body = (Map<?, ?>) response.getBody();
@@ -123,7 +123,7 @@ public class RegistrationImplTest {
 		request.setCustomerProfile(profile);
 		request.setSetupBox(new SetupBox());
 
-		ResponseEntity<?> response = registrationService.saveCompleteRegistration(request);
+		ResponseEntity<?> response = registrationService.saveRegistration(request);
 
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		Map<?, ?> body = (Map<?, ?>) response.getBody();
@@ -153,7 +153,7 @@ public class RegistrationImplTest {
 		when(addressRepo.save(any())).thenReturn(address);
 		when(customerProfileRepo.save(any())).thenReturn(profile);
 
-		ResponseEntity<?> response = registrationService.saveCompleteRegistration(request);
+		ResponseEntity<?> response = registrationService.saveRegistration(request);
 
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		Map<?, ?> body = (Map<?, ?>) response.getBody();
@@ -188,7 +188,7 @@ public class RegistrationImplTest {
 		// Simulate exception when saving registration
 		when(registrationRepo.save(any())).thenThrow(new RuntimeException("DB write failed"));
 
-		ResponseEntity<?> response = registrationService.saveCompleteRegistration(request);
+		ResponseEntity<?> response = registrationService.saveRegistration(request);
 
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		Map<?, ?> body = (Map<?, ?>) response.getBody();

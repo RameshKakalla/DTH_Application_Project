@@ -25,15 +25,15 @@ public class Registration {
 	// Nested objects
 	private CustomerProfile customerProfile;
 	private SetupBox setupBox;
-	private Address address;
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+//	private Address address;
+//
+//	public Address getAddress() {
+//		return address;
+//	}
+//
+//	public void setAddress(Address address) {
+//		this.address = address;
+//	}
 
 	public String getId() {
 		return id;
@@ -122,7 +122,7 @@ public class Registration {
 		return "Registration [id=" + id + ", registrationId=" + registrationId + ", idProofNumber=" + idProofNumber
 				+ ", idProofType=" + idProofType + ", registrationDate=" + registrationDate + ", sellerId=" + sellerId
 				+ ", customerProfileIdFK=" + customerProfileIdFK + ", setupBoxIdFK=" + setupBoxIdFK
-				+ ", customerProfile=" + customerProfile + ", setupBox=" + setupBox + ", address=" + address + "]";
+				+ ", customerProfile=" + customerProfile + ", setupBox=" + setupBox + "]";
 	}
 
 	public Registration(String id, String registrationId, String idProofNumber, IdProofType idProofType,
@@ -139,7 +139,7 @@ public class Registration {
 		this.setupBoxIdFK = setupBoxIdFK;
 		this.customerProfile = customerProfile;
 		this.setupBox = setupBox;
-		this.address = address;
+//		this.address = address;
 	}
 
 	public Registration() {
